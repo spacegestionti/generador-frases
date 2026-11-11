@@ -1,4 +1,4 @@
-package lat.exporta.frases
+package lat.exporta.frasesv
 
 import io.flutter.embedding.android.FlutterActivity
 
