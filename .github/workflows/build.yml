@@ -1,9 +1,12 @@
-name: Compilar APK y AAB para Android
+name: Compilar y Registrar Configuración de Android
 
 on:
   push:
     branches: [ main, master ]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -24,29 +27,44 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Generar estructura nativa de Android
-        run: flutter create . --overwrite --platforms=android --org com.miempresa
+      - name: Crear Configuración Android con lat.exporta.frases
+        run: flutter create . --overwrite --platforms=android --org lat.exporta --project-name frases
 
-      - name: Restaurar nuestro main.dart de frases
+      - name: Generar Llaves y Firma de App (.jks)
+        run: |
+          keytool -genkey -v -keystore android/app/upload-keystore.jks \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -alias upload -storepass 12345678 -keypass 12345678 \
+            -dname "CN=Exporta, OU=Dev, O=Exporta, L=SanSalvador, ST=SS, C=SV"
+
+      - name: Restaurar main.dart de frases
         run: git checkout lib/main.dart
 
       - name: Instalar Dependencias
         run: flutter pub get
 
-      - name: Compilar APK de Prueba (Para el Jefe)
-        run: flutter build apk --debug
+      - name: Compilar APK Release Firmado (Para la Tablet del Jefe)
+        run: flutter build apk --release
 
-      - name: Compilar App Bundle AAB (Para Play Console)
-        run: flutter build appbundle --debug
+      - name: Compilar App Bundle AAB Firmado (Para Play Console)
+        run: flutter build appbundle --release
 
       - name: Guardar APK como Artefacto
         uses: actions/upload-artifact@v4
         with:
-          name: APK-De-Prueba
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          name: APK-De-Prueba-Release
+          path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Guardar AAB como Artefacto
         uses: actions/upload-artifact@v4
         with:
           name: AAB-Para-Play-Console
-          path: build/app/outputs/bundle/debug/app-debug.aab
+          path: build/app/outputs/bundle/release/app-release.aab
+
+      - name: Commitear carpeta android/ al Repositorio
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add android/
+          git commit -m "Chore: agregar carpeta de configuracion android y firma de app lat.exporta.frases" || echo "Sin cambios"
+          git push
