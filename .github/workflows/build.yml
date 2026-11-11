@@ -7,25 +7,25 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Descargar Código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Configurar Java 17
-        uses: actions/setup-java@v4
+      - name: Configurar Java 21
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: Configurar Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
-      - name: Generar estructura nativa de Android
-        run: flutter create . --platforms=android --org com.miempresa
+      - name: Generar estructura nativa de Android (Forzado)
+        run: flutter create . --force --platforms=android --org com.miempresa
 
       - name: Instalar Dependencias
         run: flutter pub get
@@ -37,13 +37,13 @@ jobs:
         run: flutter build appbundle --debug
 
       - name: Guardar APK como Artefacto
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: APK-De-Prueba
           path: build/app/outputs/flutter-apk/app-debug.apk
 
       - name: Guardar AAB como Artefacto
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: AAB-Para-Play-Console
           path: build/app/outputs/bundle/debug/app-debug.aab
