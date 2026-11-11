@@ -27,6 +27,9 @@ jobs:
       - name: Generar estructura nativa de Android
         run: flutter create . --overwrite --platforms=android --org com.miempresa
 
+      - name: Restaurar nuestro main.dart de frases
+        run: git checkout lib/main.dart
+
       - name: Instalar Dependencias
         run: flutter pub get
 
