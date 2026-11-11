@@ -7,7 +7,7 @@ plugins {
 android {
     namespace = "lat.exporta.frases"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = flutter.ndkVersionandroid
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

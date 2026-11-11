@@ -1,12 +1,9 @@
-name: Compilar y Registrar Configuración de Android
+name: Compilar APK y AAB Release
 
 on:
   push:
     branches: [ main, master ]
   workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
   build:
@@ -27,44 +24,26 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Crear Configuración Android con lat.exporta.frases
-        run: flutter create . --overwrite --platforms=android --org lat.exporta --project-name frases
-
-      - name: Generar Llaves y Firma de App (.jks)
-        run: |
-          keytool -genkey -v -keystore android/app/upload-keystore.jks \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -alias upload -storepass 12345678 -keypass 12345678 \
-            -dname "CN=Exporta, OU=Dev, O=Exporta, L=SanSalvador, ST=SS, C=SV"
-
-      - name: Restaurar main.dart de frases
-        run: git checkout lib/main.dart
+      - name: Configurar local.properties
+        run: echo "sdk.dir=$ANDROID_HOME" > android/local.properties
 
       - name: Instalar Dependencias
         run: flutter pub get
 
-      - name: Compilar APK Release Firmado (Para la Tablet del Jefe)
+      - name: Compilar APK Release (Para la Tablet del Jefe)
         run: flutter build apk --release
 
-      - name: Compilar App Bundle AAB Firmado (Para Play Console)
+      - name: Compilar App Bundle AAB (Para Play Console)
         run: flutter build appbundle --release
 
       - name: Guardar APK como Artefacto
         uses: actions/upload-artifact@v4
         with:
-          name: APK-De-Prueba-Release
+          name: FraseSV-APK-Release
           path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Guardar AAB como Artefacto
         uses: actions/upload-artifact@v4
         with:
-          name: AAB-Para-Play-Console
+          name: FraseSV-AAB-PlayConsole
           path: build/app/outputs/bundle/release/app-release.aab
-
-      - name: Commitear carpeta android/ al Repositorio
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add android/
-          git commit -m "Chore: agregar carpeta de configuracion android y firma de app lat.exporta.frases" || echo "Sin cambios"
-          git push
