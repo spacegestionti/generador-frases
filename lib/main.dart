@@ -179,6 +179,105 @@ class _FrasesScreenState extends State<FrasesScreen> {
             'La confianza se construye cuando los hechos coinciden con las palabras.',
         author: 'Chris Butler',
         category: 'Liderazgo'),
+    Quote(
+        text:
+            'La calidad de un líder se refleja en los estándares que establece para sí mismo.',
+        author: 'Ray Kroc',
+        category: 'Liderazgo'),
+    Quote(
+        text:
+            'El liderazgo no consiste en estar al mando, sino en cuidar de quienes están a tu cargo.',
+        author: 'Simon Sinek',
+        category: 'Liderazgo'),
+    Quote(
+        text:
+            'Ningún hombre será un gran líder si quiere hacerlo todo por sí mismo.',
+        author: 'Andrew Carnegie',
+        category: 'Liderazgo'),
+    Quote(
+        text:
+            'La tarea del líder es llevar a su gente desde donde está hasta donde no ha estado.',
+        author: 'Henry Kissinger',
+        category: 'Liderazgo'),
+    Quote(
+        text:
+            'El talento gana partidos, pero el trabajo en equipo y la inteligencia ganan campeonatos.',
+        author: 'Michael Jordan',
+        category: 'Liderazgo'),
+    Quote(
+        text: 'La innovación es lo que distingue a un líder de los demás.',
+        author: 'Steve Jobs',
+        category: 'Innovación'),
+    Quote(
+        text: 'El valor de una idea radica en ponerla en práctica.',
+        author: 'Thomas Edison',
+        category: 'Innovación'),
+    Quote(
+        text:
+            'Si siempre haces lo que siempre has hecho, siempre obtendrás lo que siempre has obtenido.',
+        author: 'Albert Einstein',
+        category: 'Innovación'),
+    Quote(
+        text:
+            'La creatividad requiere tener el valor de desprenderse de las certezas.',
+        author: 'Erich Fromm',
+        category: 'Innovación'),
+    Quote(
+        text:
+            'La innovación no tiene nada que ver con cuántos dólares inviertes en investigación.',
+        author: 'Steve Jobs',
+        category: 'Innovación'),
+    Quote(
+        text:
+            'Las grandes oportunidades nacen de haber sabido aprovechar las pequeñas.',
+        author: 'Bill Gates',
+        category: 'Innovación'),
+    Quote(
+        text:
+            'Sin estrategia, la ejecución no es más que una actividad sin dirección.',
+        author: 'Michael Porter',
+        category: 'Estrategia'),
+    Quote(
+        text: 'La esencia de la estrategia es decidir qué no hacer.',
+        author: 'Michael Porter',
+        category: 'Estrategia'),
+    Quote(
+        text: 'Los planes no son nada; la planificación lo es todo.',
+        author: 'Dwight D. Eisenhower',
+        category: 'Estrategia'),
+    Quote(
+        text:
+            'La estrategia requiere pensamiento, la táctica requiere observación.',
+        author: 'Max Euwe',
+        category: 'Estrategia'),
+    Quote(
+        text:
+            'La oportunidad no espera a nadie, pero la estrategia sabe reconocerla.',
+        author: 'Sun Tzu',
+        category: 'Estrategia'),
+    Quote(
+        text: 'Si no sabes a dónde vas, cualquier camino te llevará allí.',
+        author: 'Lewis Carroll',
+        category: 'Estrategia'),
+    Quote(
+        text:
+            'Tanto si crees que puedes como si crees que no puedes, tienes razón.',
+        author: 'Henry Ford',
+        category: 'Mentalidad'),
+    Quote(
+        text:
+            'Lo que obtienes al alcanzar tus metas no es tan importante como en quién te conviertes.',
+        author: 'Zig Ziglar',
+        category: 'Mentalidad'),
+    Quote(
+        text: 'El futuro depende de lo que hagas hoy.',
+        author: 'Mahatma Gandhi',
+        category: 'Mentalidad'),
+    Quote(
+        text:
+            'El fracaso es la oportunidad de empezar de nuevo con más inteligencia.',
+        author: 'Henry Ford',
+        category: 'Mentalidad'),
   ];
 
   final _random = Random();
@@ -235,111 +334,109 @@ class _FrasesScreenState extends State<FrasesScreen> {
         children: [
           const _BackgroundGlow(),
           SafeArea(
-            child: LayoutBuilder(
-              builder: (context, constraints) => SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
-                child: ConstrainedBox(
-                  constraints:
-                      BoxConstraints(minHeight: constraints.maxHeight - 48),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const _Header(),
-                      const SizedBox(height: 28),
-                      SizedBox(
-                        height: 42,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: _categories.length,
-                          separatorBuilder: (_, __) => const SizedBox(width: 8),
-                          itemBuilder: (context, index) {
-                            final category = _categories[index];
-                            return ChoiceChip(
-                              label: Text(category),
-                              selected: category == _selectedCategory,
-                              onSelected: (_) => _selectCategory(category),
-                              labelStyle: TextStyle(
-                                color: category == _selectedCategory
-                                    ? Colors.white
-                                    : Colors.white60,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              backgroundColor:
-                                  Colors.white.withValues(alpha: .06),
-                              selectedColor: const Color(0xFF4F46E5),
-                              side: BorderSide(
-                                  color: Colors.white.withValues(alpha: .1)),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14)),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      _GlassCard(
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 450),
-                          transitionBuilder: (child, animation) =>
-                              FadeTransition(
-                            opacity: animation,
-                            child: SlideTransition(
-                              position: Tween<Offset>(
-                                begin: const Offset(.04, 0),
-                                end: Offset.zero,
-                              ).animate(CurvedAnimation(
-                                  parent: animation,
-                                  curve: Curves.easeOutCubic)),
-                              child: child,
-                            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const _Header(),
+                  const SizedBox(height: 28),
+                  SizedBox(
+                    height: 42,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _categories.length,
+                      separatorBuilder: (_, __) => const SizedBox(width: 8),
+                      itemBuilder: (context, index) {
+                        final category = _categories[index];
+                        return ChoiceChip(
+                          label: Text(category),
+                          selected: category == _selectedCategory,
+                          onSelected: (_) => _selectCategory(category),
+                          labelStyle: TextStyle(
+                            color: category == _selectedCategory
+                                ? Colors.white
+                                : Colors.white60,
+                            fontWeight: FontWeight.w600,
                           ),
-                          child: _QuoteContent(
-                            key:
-                                ValueKey('${_selectedCategory}_$_currentIndex'),
-                            quote: quote,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-                      Center(
-                        child: Text(
-                          '${_currentIndex + 1} / ${_filteredQuotes.length}',
-                          style: const TextStyle(
-                              color: Colors.white38,
-                              fontSize: 12,
-                              letterSpacing: 1.4),
-                        ),
-                      ),
-                      const SizedBox(height: 26),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 54,
-                        child: FilledButton.icon(
-                          onPressed: _nextQuote,
-                          icon:
-                              const Icon(Icons.auto_awesome_rounded, size: 20),
-                          label: const Text('Nueva frase',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16)),
-                          style: FilledButton.styleFrom(
-                            backgroundColor: const Color(0xFF6366F1),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Center(
-                        child: TextButton.icon(
-                          onPressed: _copyQuote,
-                          icon: const Icon(Icons.copy_rounded, size: 18),
-                          label: const Text('Copiar frase'),
-                          style: TextButton.styleFrom(
-                              foregroundColor: Colors.white70),
-                        ),
-                      ),
-                    ],
+                          backgroundColor: Colors.white.withValues(alpha: .06),
+                          selectedColor: const Color(0xFF4F46E5),
+                          side: BorderSide(
+                              color: Colors.white.withValues(alpha: .1)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14)),
+                        );
+                      },
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: _GlassCard(
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 450),
+                        transitionBuilder: (child, animation) => FadeTransition(
+                          opacity: animation,
+                          child: SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(.04, 0),
+                              end: Offset.zero,
+                            ).animate(CurvedAnimation(
+                                parent: animation, curve: Curves.easeOutCubic)),
+                            child: child,
+                          ),
+                        ),
+                        child: _QuoteContent(
+                          key: ValueKey('${_selectedCategory}_$_currentIndex'),
+                          quote: quote,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Center(
+                    child: Text(
+                      '${_currentIndex + 1} / ${_filteredQuotes.length}',
+                      style: const TextStyle(
+                          color: Colors.white38,
+                          fontSize: 12,
+                          letterSpacing: 1.4),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: FilledButton.icon(
+                      onPressed: _nextQuote,
+                      icon: const Icon(Icons.auto_awesome_rounded, size: 20),
+                      label: const Text('Nueva frase',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16)),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: const Color(0xFF6366F1),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: OutlinedButton.icon(
+                      onPressed: _copyQuote,
+                      icon: const Icon(Icons.copy_rounded, size: 18),
+                      label: const Text('Copiar frase',
+                          style: TextStyle(fontWeight: FontWeight.w600)),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white70,
+                        side: const BorderSide(color: Colors.white24),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16)),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -410,24 +507,52 @@ class _QuoteContent extends StatelessWidget {
                 letterSpacing: 1.4),
           ),
         ),
-        const SizedBox(height: 28),
-        const Icon(Icons.format_quote_rounded,
-            color: Color(0xFF818CF8), size: 38),
-        const SizedBox(height: 10),
-        Text(
-          quote.text,
-          style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              height: 1.3,
-              fontWeight: FontWeight.w600),
+        Expanded(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 18),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.format_quote_rounded,
+                      color: Color(0xFF818CF8), size: 38),
+                  const SizedBox(height: 10),
+                  Text(
+                    quote.text,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        height: 1.3,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 26),
+                  Text('— ${quote.author}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          color: Colors.white60,
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic)),
+                ],
+              ),
+            ),
+          ),
         ),
-        const SizedBox(height: 26),
-        Text('— ${quote.author}',
-            style: const TextStyle(
-                color: Colors.white60,
-                fontSize: 14,
-                fontStyle: FontStyle.italic)),
+        const Divider(color: Colors.white10, height: 1),
+        const SizedBox(height: 14),
+        const Row(
+          children: [
+            Icon(Icons.bookmark_border_rounded,
+                color: Colors.white38, size: 16),
+            SizedBox(width: 7),
+            Text('Reflexión ejecutiva',
+                style: TextStyle(
+                    color: Colors.white38,
+                    fontSize: 11,
+                    letterSpacing: .8,
+                    fontWeight: FontWeight.w500)),
+          ],
+        ),
       ],
     );
   }
