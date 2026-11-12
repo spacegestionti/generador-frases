@@ -24,13 +24,19 @@ jobs:
         with:
           channel: 'stable'
 
+      - name: Restaurar key.properties desde Secrets
+        run: echo "${{ secrets.KEY_PROPERTIES }}" > android/key.properties
+
+      - name: Restaurar Keystore desde Secret Base64
+        run: echo "${{ secrets.UPLOAD_KEY_STORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+
       - name: Instalar Dependencias
         run: flutter pub get
 
-      - name: Compilar APK Release (Para la Tablet del Jefe)
+      - name: Compilar APK Release (Para Pruebas)
         run: flutter build apk --release
 
-      - name: Compilar App Bundle AAB (Para Play Console)
+      - name: Compilar App Bundle AAB Firmado (Para Play Console)
         run: flutter build appbundle --release
 
       - name: Guardar APK como Artefacto
